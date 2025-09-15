@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Arte atravez de la Hiatoria - Galería de Arte</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .barra-navegacion {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #000;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.8rem 3rem;
+            text-align: center;
+        }
+
+        .logo-nombre {
+            font-size: 1.6rem;
+            letter-spacing: 4px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .logo-subtitulo {
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: #fff;
+            opacity: 0.8;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 3px;
+            margin-top: 2px;
+        }
+
+        .contenido {
+            margin-top: 100px;
+            padding: 2rem 4rem;
+        }
+
+        .presentacion {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .presentacion-frase {
+            font-size: 1.8rem;
+            font-style: italic;
+            color: #DAA520;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .presentacion-subtitulo {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .obra {
+            position: relative;
+            height: 450px;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.6s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .obra:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .obra-imagen {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.6s ease;
+        }
+
+        .obra:hover .obra-imagen {
+            transform: scale(1.1);
+            filter: brightness(0.7) blur(2px);
+        }
+
+        .obra-autor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 1.5rem;
+            color: #fff;
+            transform: translateY(100%);
+            transition: all 0.6s ease;
+        }
+
+        .obra:hover .obra-autor {
+            transform: translateY(0);
+        }
+
+        .autor-foto {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            margin-bottom: 0.8rem;
+        }
+
+        .autor-nombre {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            color: #4ecdc4;
+        }
+
+        .obra-descripcion {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        .obra-titulo {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .contenido {
+                padding: 1rem;
+                margin-top: 140px;
+            }
+            .galeria {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="barra-navegacion">
+        <div class="logo">
+            <div class="logo-nombre">El Arte atravez de la Historia</div>
+            <div class="logo-subtitulo">G A L E R Í A</div>
+        </div>
+    </nav>
+
+    <div class="contenido">
+        <div class="presentacion">
+            <div class="presentacion-frase">"El arte ha sido, a través de la historia, el lenguaje eterno con el que la humanidad expresa sus sueños, luchas y esperanzas."</div>
+            <div class="presentacion-subtitulo">El arte es mas que pintura sobre un lienzo</div>
+        </div>
+
+        <div class="galeria">
+            <!-- Obra 1 -->
+            <div class="obra">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Leonardo_da_Vinci_-_Mona_Lisa.jpg" class="obra-imagen">
+                <div class="obra-titulo">La Mona Lisa</div>
+                <div class="obra-autor">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Leonardo_da_Vinci.jpg" class="autor-foto">
+                    <div class="autor-nombre">Leonardo da Vinci</div>
+                    <div class="obra-descripcion">Obra renacentista que se ha convertido en el retrato más famoso de la historia del arte.</div>
+                </div>
+            </div>
+
+            <!-- Obra 2 -->
+            <div class="obra">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Vincent_van_Gogh_-_De_sterrennacht_-_Google_Art_Project.jpg" class="obra-imagen">
+                <div class="obra-titulo">La noche estrellada</div>
+                <div class="obra-autor">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Vincent_van_Gogh_-_Self-portrait_-_Google_Art_Project.jpg" class="autor-foto">
+                    <div class="autor-nombre">Vincent van Gogh</div>
+                    <div class="obra-descripcion">Una de las obras más icónicas del postimpresionismo, pintada en 1889 durante su estancia en Saint-Rémy.</div>
+                </div>
+            </div>
+
+            <!-- Obra 3 -->
+            <div class="obra">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/El_Grito_de_Edvard_Munch%2C_1893.jpg" class="obra-imagen">
+                <div class="obra-titulo">El Grito</div>
+                <div class="obra-autor">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Edvard_Munch_1902.jpg" class="autor-foto">
+                    <div class="autor-nombre">Edvard Munch</div>
+                    <div class="obra-descripcion">Pintura expresionista de 1893 que simboliza la ansiedad existencial del ser humano.</div>
+                </div>
+            </div>
+
+            <!-- Obra 4 -->
+            <div class="obra">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Pablo_Picasso%2C_1937%2C_Guernica%2C_oil_on_canvas%2C_349_cm_%C3%97_776_cm_%28137.4_in_%C3%97_305.5_in%29%2C_Museo_Reina_Sof%C3%ADa%2C_Madrid.jpg" class="obra-imagen">
+                <div class="obra-titulo">Guernica</div>
+                <div class="obra-autor">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Pablo_picasso_1.jpg" class="autor-foto">
+                    <div class="autor-nombre">Pablo Picasso</div>
+                    <div class="obra-descripcion">Una de las pinturas más influyentes del siglo XX, creada en 1937 como denuncia al bombardeo de Guernica.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
