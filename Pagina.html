@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Arte atravez de la Hiatoria - Galería de Arte</title>
+    <title>Élite Artis - Galería de Arte</title>
     <style>
         * {
             margin: 0;
@@ -16,9 +16,11 @@
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
             color: #fff;
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
         }
 
-        .barra-navegacion {
+        .nav-bar {
             position: fixed;
             top: 0;
             left: 0;
@@ -28,22 +30,32 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .logo {
+        .nav-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0.8rem 3rem;
             text-align: center;
         }
 
-        .logo-nombre {
+        .logo-name {
             font-size: 1.6rem;
+            font-weight: normal;
             letter-spacing: 4px;
             color: #fff;
             text-transform: uppercase;
+            margin-bottom: 2px;
+            font-family: 'Georgia', serif;
         }
 
-        .logo-subtitulo {
+        .logo-subtitle {
             font-size: 0.65rem;
             letter-spacing: 3px;
             color: #fff;
@@ -54,21 +66,59 @@
             margin-top: 2px;
         }
 
-        .contenido {
-            margin-top: 100px;
+        .nav-bottom {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: normal;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: #DAA520;
+        }
+
+        .main-content {
+            margin-top: 140px;
             padding: 2rem 4rem;
         }
 
-        .presentacion {
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .hero-section {
             text-align: center;
             margin-bottom: 4rem;
             padding: 3rem 0;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .presentacion-frase {
+        .hero-quote {
             font-size: 1.8rem;
             font-style: italic;
             color: #DAA520;
@@ -76,13 +126,13 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        .presentacion-subtitulo {
+        .hero-subtitle {
             font-size: 1.1rem;
             opacity: 0.8;
             letter-spacing: 1px;
         }
 
-        .galeria {
+        .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
@@ -90,72 +140,97 @@
             margin: 0 auto;
         }
 
-        .obra {
+        .artwork-card {
             position: relative;
             height: 450px;
             border-radius: 20px;
             overflow: hidden;
-            transition: all 0.6s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .obra:hover {
+        .artwork-card:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
-        .obra-imagen {
+        .artwork-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: all 0.6s ease;
         }
 
-        .obra:hover .obra-imagen {
+        .artwork-card:hover .artwork-image {
             transform: scale(1.1);
             filter: brightness(0.7) blur(2px);
         }
 
-        .obra-autor {
+        .artwork-quote {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transition: all 0.6s ease;
+            z-index: 2;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .artwork-card:hover .artwork-quote {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        .artist-info {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
             background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
             padding: 1.5rem;
-            color: #fff;
             transform: translateY(100%);
             transition: all 0.6s ease;
+            color: #fff;
         }
 
-        .obra:hover .obra-autor {
+        .artwork-card:hover .artist-info {
             transform: translateY(0);
         }
 
-        .autor-foto {
+        .artist-photo {
             width: 60px;
             height: 60px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #fff;
             margin-bottom: 0.8rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .autor-nombre {
+        .artist-name {
             font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 0.3rem;
             color: #4ecdc4;
         }
 
-        .obra-descripcion {
+        .artwork-description {
             font-size: 0.85rem;
             line-height: 1.4;
             opacity: 0.9;
         }
 
-        .obra-titulo {
+        .artwork-title {
             position: absolute;
             top: 1rem;
             left: 1rem;
@@ -164,78 +239,302 @@
             border-radius: 8px;
             font-size: 0.95rem;
             font-weight: bold;
+            backdrop-filter: blur(5px);
+        }
+
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .artist-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .artist-card:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .artist-card .artist-photo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem auto;
+            display: block;
+        }
+
+        .artist-card .artist-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #DAA520;
+        }
+
+        .artist-period {
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .artist-bio {
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #DAA520;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         @media (max-width: 768px) {
-            .contenido {
+            .nav-top {
+                padding: 0.5rem 1rem;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                gap: 1.5rem;
+                justify-content: center;
+            }
+            
+            .main-content {
                 padding: 1rem;
                 margin-top: 140px;
             }
-            .galeria {
+            
+            .gallery-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="barra-navegacion">
-        <div class="logo">
-            <div class="logo-nombre">El Arte atravez de la Historia</div>
-            <div class="logo-subtitulo">G A L E R Í A</div>
+    <nav class="nav-bar">
+        <div class="nav-top">
+            <div class="logo-section">
+                <div class="logo-name">Élite Artis</div>
+                <div class="logo-subtitle">G A L E R Í A</div>
+            </div>
+        </div>
+        
+        <div class="nav-bottom">
+            <div class="nav-menu">
+                <a href="#" class="nav-item active" onclick="showSection('gallery')">Galería</a>
+                <a href="#" class="nav-item" onclick="showSection('artists')">Artistas</a>
+            </div>
         </div>
     </nav>
 
-    <div class="contenido">
-        <div class="presentacion">
-            <div class="presentacion-frase">"El arte ha sido, a través de la historia, el lenguaje eterno con el que la humanidad expresa sus sueños, luchas y esperanzas."</div>
-            <div class="presentacion-subtitulo">El arte es mas que pintura sobre un lienzo</div>
+    <div class="main-content">
+        <!-- Sección Galería -->
+        <div id="gallery" class="section active">
+            <div class="hero-section">
+                <div class="hero-quote">"El arte vive en el momento eterno donde el alma se encuentra"</div>
+                <div class="hero-subtitle">Experiencias exclusivas · Colecciones únicas · Momentos inolvidables</div>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Las obras se cargarán dinámicamente -->
+            </div>
         </div>
 
-        <div class="galeria">
-            <!-- Obra 1 -->
-            <div class="obra">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Leonardo_da_Vinci_-_Mona_Lisa.jpg" class="obra-imagen">
-                <div class="obra-titulo">La Mona Lisa</div>
-                <div class="obra-autor">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Leonardo_da_Vinci.jpg" class="autor-foto">
-                    <div class="autor-nombre">Leonardo da Vinci</div>
-                    <div class="obra-descripcion">Obra renacentista que se ha convertido en el retrato más famoso de la historia del arte.</div>
-                </div>
-            </div>
-
-            <!-- Obra 2 -->
-            <div class="obra">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Vincent_van_Gogh_-_De_sterrennacht_-_Google_Art_Project.jpg" class="obra-imagen">
-                <div class="obra-titulo">La noche estrellada</div>
-                <div class="obra-autor">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Vincent_van_Gogh_-_Self-portrait_-_Google_Art_Project.jpg" class="autor-foto">
-                    <div class="autor-nombre">Vincent van Gogh</div>
-                    <div class="obra-descripcion">Una de las obras más icónicas del postimpresionismo, pintada en 1889 durante su estancia en Saint-Rémy.</div>
-                </div>
-            </div>
-
-            <!-- Obra 3 -->
-            <div class="obra">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/El_Grito_de_Edvard_Munch%2C_1893.jpg" class="obra-imagen">
-                <div class="obra-titulo">El Grito</div>
-                <div class="obra-autor">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Edvard_Munch_1902.jpg" class="autor-foto">
-                    <div class="autor-nombre">Edvard Munch</div>
-                    <div class="obra-descripcion">Pintura expresionista de 1893 que simboliza la ansiedad existencial del ser humano.</div>
-                </div>
-            </div>
-
-            <!-- Obra 4 -->
-            <div class="obra">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Pablo_Picasso%2C_1937%2C_Guernica%2C_oil_on_canvas%2C_349_cm_%C3%97_776_cm_%28137.4_in_%C3%97_305.5_in%29%2C_Museo_Reina_Sof%C3%ADa%2C_Madrid.jpg" class="obra-imagen">
-                <div class="obra-titulo">Guernica</div>
-                <div class="obra-autor">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Pablo_picasso_1.jpg" class="autor-foto">
-                    <div class="autor-nombre">Pablo Picasso</div>
-                    <div class="obra-descripcion">Una de las pinturas más influyentes del siglo XX, creada en 1937 como denuncia al bombardeo de Guernica.</div>
-                </div>
+        <!-- Sección Artistas -->
+        <div id="artists" class="section">
+            <h2 class="section-title">Maestros del Arte</h2>
+            <div class="artists-grid" id="artistsGrid">
+                <!-- Los artistas se cargarán dinámicamente -->
             </div>
         </div>
     </div>
+
+    <script>
+        // Base de datos de obras de arte
+        const artworks = [
+            {
+                title: "La Noche Estrellada",
+                artist: "Vincent van Gogh",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-Starry_Night-Google_Art_Project.jpg/1280px-Van_Gogh-Starry_Night-_Google_Art_Project.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Vincent_van_Gogh_-Self-Portrait-Google_Art_Project%28454045%29.jpg/256px-Vincent_van_Gogh_-Self-Portrait-Google_Art_Project%28454045%29.jpg",
+                description: "Van Gogh pintó esta obra maestra en 1889 durante su estancia en el sanatorio de Saint-Rémy. Los remolinos del cielo reflejan la turbulencia interior del artista.",
+                period: "1853 - 1890 | Post-Impresionismo",
+                bio: "Pintor neerlandés considerado uno de los grandes maestros de la pintura. Su obra, caracterizada por pinceladas dramáticas y colores vivos, influyó decisivamente en el arte del siglo XX."
+            },
+            {
+                title: "La Persistencia de la Memoria",
+                artist: "Salvador Dalí",
+                image: "https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Salvador_Dal%C3%AD_1939.jpg/256px-Salvador_Dal%C3%AD_1939.jpg",
+                description: "Dalí creó esta icónica obra surrealista en 1931. Los relojes blandos simbolizan la relatividad del tiempo y cuestionan nuestra percepción de la realidad.",
+                period: "1904 - 1989 | Surrealismo",
+                bio: "Pintor español, máximo exponente del surrealismo. Conocido por sus imágenes oníricas y su método paranoico-crítico."
+            },
+            {
+                title: "La Gran Ola",
+                artist: "Katsushika Hokusai",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Hokusai-sketch.jpg/256px-Hokusai-sketch.jpg",
+                description: "Esta obra maestra del ukiyo-e, creada alrededor de 1831, forma parte de la serie 'Treinta y seis vistas del monte Fuji'.",
+                period: "1760 - 1849 | Ukiyo-e",
+                bio: "Artista japonés del período Edo, maestro del ukiyo-e. Sus grabados en madera influyeron profundamente en el arte occidental."
+            },
+            {
+                title: "La Joven de la Perla",
+                artist: "Johannes Vermeer",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Johannes_Vermeer_%281632-1675%29_-The_Girl_With_The_Wine_Glass%28detail%29.jpg/256px-Johannes_Vermeer_%281632-1675%29_-The_Girl_With_The_Wine_Glass%28detail%29.jpg",
+                description: "Vermeer pintó esta enigmática obra hacia 1665, conocida como la 'Mona Lisa del Norte'. La perla luminosa representa la maestría del artista.",
+                period: "1632 - 1675 | Barroco Holandés",
+                bio: "Pintor holandés del Siglo de Oro. Maestro de la luz y el color, creó obras de extraordinaria belleza y serenidad."
+            },
+            {
+                title: "American Gothic",
+                artist: "Grant Wood",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Grant_Wood_-American_Gothic-Google_Art_Project.jpg/1000px-Grant_Wood-American_Gothic-_Google_Art_Project.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Grant_DeVolson_Wood.jpg/256px-Grant_DeVolson_Wood.jpg",
+                description: "Wood pintó esta icónica obra en 1930. La pintura representa los valores puritanos del Medio Oeste americano durante la Gran Depresión.",
+                period: "1891 - 1942 | Regionalismo Americano",
+                bio: "Pintor estadounidense, líder del movimiento regionalista. Sus obras celebran la vida rural americana con técnica meticulosa."
+            },
+            {
+                title: "El Grito",
+                artist: "Edvard Munch",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/800px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Edvard_Munch_1933-2.jpg/256px-Edvard_Munch_1933-2.jpg",
+                description: "Munch creó esta obra expresionista en 1893. La figura distorsionada expresa la ansiedad moderna y se ha convertido en símbolo universal.",
+                period: "1863 - 1944 | Expresionismo",
+                bio: "Pintor noruego, precursor del expresionismo. Sus obras exploran temas como la muerte, la enfermedad y la angustia existencial."
+            },
+            {
+                title: "La Mona Lisa",
+                artist: "Leonardo da Vinci",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/687px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Leonardo_self.jpg/256px-Leonardo_self.jpg",
+                description: "Pintada entre 1503-1519, es el retrato más famoso del mundo. La técnica del sfumato crea esa misteriosa expresión.",
+                period: "1452 - 1519 | Renacimiento",
+                bio: "Genio renacentista italiano, fue pintor, inventor, científico y filósofo. Conocido como el hombre del Renacimiento."
+            },
+            {
+                title: "Guernica",
+                artist: "Pablo Picasso",
+                image: "https://upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Pablo_picasso_1.jpg/256px-Pablo_picasso_1.jpg",
+                description: "Creada en 1937 como respuesta al bombardeo de Guernica. Es una de las obras antibélicas más poderosas del arte.",
+                period: "1881 - 1973 | Cubismo",
+                bio: "Pintor y escultor español, cofundador del cubismo y uno de los artistas más influyentes del siglo XX."
+            },
+            {
+                title: "Las Meninas",
+                artist: "Diego Velázquez",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg/800px-Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Diego_Vel%C3%A1zquez_Autorretrato_45_x_38_cm_-Colecci%C3%B3n_Real_Academia_de_Bellas_Artes_de_San_Carlos-Museo_de_Bellas_Artes_de_Valencia.jpg/256px-Diego_Vel%C3%A1zquez_Autorretrato_45_x_38_cm-Colecci%C3%B3n_Real_Academia_de_Bellas_Artes_de_San_Carlos-_Museo_de_Bellas_Artes_de_Valencia.jpg",
+                description: "Pintada en 1656, revoluciona la perspectiva al mostrar al artista pintando la obra que estamos viendo.",
+                period: "1599 - 1660 | Barroco Español",
+                bio: "Pintor español del Siglo de Oro, considerado uno de los más importantes de la historia del arte occidental."
+            },
+            {
+                title: "El Nacimiento de Venus",
+                artist: "Sandro Botticelli",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-La_nascita_di_Venere-Google_Art_Project-edited.jpg/1280px-Sandro_Botticelli-La_nascita_di_Venere-Google_Art_Project-_edited.jpg",
+                artistPhoto: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sandro_Botticelli_083.jpg/256px-Sandro_Botticelli_083.jpg",
+                description: "Creada hacia 1485, representa la diosa Venus emergiendo del mar. Es símbolo del Renacimiento italiano.",
+                period: "1445 - 1510 | Renacimiento Temprano",
+                bio: "Pintor italiano del Quattrocento florentino. Sus obras combinan la gracia del gótico internacional con el humanismo renacentista."
+            }
+        ];
+
+        // Funciones para mostrar secciones
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Actualizar navegación
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Cargar contenido específico de la sección
+            if (sectionId === 'gallery') {
+                loadGallery();
+            } else if (sectionId === 'artists') {
+                loadArtists();
+            }
+        }
+
+        // Función para cargar la galería
+        function loadGallery() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            galleryGrid.innerHTML = '';
+            
+            artworks.forEach(artwork => {
+                const artworkCard = `
+                    <div class="artwork-card">
+                        <div class="artwork-title">${artwork.title}</div>
+                        <img src="${artwork.image}" alt="${artwork.title}" class="artwork-image">
+                        <div class="artist-info">
+                            <img src="${artwork.artistPhoto}" alt="${artwork.artist}" class="artist-photo">
+                            <div class="artist-name">${artwork.artist}</div>
+                            <div class="artwork-description">${artwork.description}</div>
+                        </div>
+                    </div>
+                `;
+                galleryGrid.innerHTML += artworkCard;
+            });
+        }
+
+        // Función para cargar artistas
+        function loadArtists() {
+            const artistsGrid = document.getElementById('artistsGrid');
+            artistsGrid.innerHTML = '';
+            
+            // Crear lista única de artistas
+            const uniqueArtists = [];
+            const artistNames = new Set();
+            
+            artworks.forEach(artwork => {
+                if (!artistNames.has(artwork.artist)) {
+                    artistNames.add(artwork.artist);
+                    uniqueArtists.push({
+                        name: artwork.artist,
+                        photo: artwork.artistPhoto,
+                        period: artwork.period,
+                        bio: artwork.bio
+                    });
+                }
+            });
+            
+            uniqueArtists.forEach(artist => {
+                const artistCard = `
+                    <div class="artist-card">
+                        <img src="${artist.photo}" alt="${artist.name}" class="artist-photo">
+                        <div class="artist-name">${artist.name}</div>
+                        <div class="artist-period">${artist.period}</div>
+                        <div class="artist-bio">${artist.bio}</div>
+                    </div>
+                `;
+                artistsGrid.innerHTML += artistCard;
+            });
+        }
+
+        // Cargar contenido inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGallery();
+        });
+    </script>
 </body>
 </html>
